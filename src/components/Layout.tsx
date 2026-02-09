@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <span className="font-serif text-xl font-bold tracking-tight">
-              Pyle Financial Services
+            Financial Services
             </span>
           </Link>
 
@@ -81,7 +81,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <footer className="border-t bg-primary text-primary-foreground/70 py-8">
         <div className="container text-center text-sm">
           <p className="font-serif text-lg font-semibold text-primary-foreground mb-2">
-            Pyle Financial Services
+            Financial Services
           </p>
           <p>Estate Planning Solutions for Individuals</p>
           <p className="mt-1">© {new Date().getFullYear()} Pyle Financial Services. All rights reserved.</p>
