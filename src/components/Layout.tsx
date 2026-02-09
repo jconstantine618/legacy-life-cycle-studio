@@ -84,7 +84,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             Financial Services
           </p>
           <p>Estate Planning Solutions for Individuals</p>
-          <p className="mt-1">© {new Date().getFullYear()} Pyle Financial Services. All rights reserved.</p>
+          <p className="mt-1">© {new Date().getFullYear()} Financial Services. All rights reserved.</p>
         </div>
       </footer>
     </div>
