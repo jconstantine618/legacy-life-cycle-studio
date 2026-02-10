@@ -114,7 +114,11 @@ export default function Recommendations() {
   }, [data]);
 
   const setAllocation = useCallback((symbol: string, amount: number) => {
-    setAllocations((prev) => ({ ...prev, [symbol]: amount }));
+    setAllocations((prev) => {
+      const next = { ...prev, [symbol]: amount };
+      localStorage.setItem("strategyAllocations", JSON.stringify(next));
+      return next;
+    });
   }, []);
 
   // Tax calculations
