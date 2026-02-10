@@ -102,7 +102,7 @@ export default function Assessment() {
 
   const handleSubmit = () => {
     localStorage.setItem("assessmentData", JSON.stringify(data));
-    navigate("/recommendations");
+    navigate("/lead-capture");
   };
 
   return (

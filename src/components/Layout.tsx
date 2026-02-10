@@ -1,8 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Grid3X3, ClipboardList, BarChart3, Home } from "lucide-react";
+import { Menu, Grid3X3, ClipboardList, BarChart3, Home, LogIn, LogOut } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
@@ -13,7 +14,14 @@ const navItems = [
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -21,7 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <span className="font-serif text-xl font-bold tracking-tight">
-            Financial Services
+              Financial Services
             </span>
           </Link>
 
@@ -44,6 +52,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </Link>
               );
             })}
+            {user ? (
+              <Button
+                variant="ghost"
+                className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                onClick={handleSignOut}
+              >
+                <LogOut className="h-4 w-4 mr-1.5" />
+                Sign Out
+              </Button>
+            ) : (
+              <Link to="/auth">
+                <Button
+                  variant="ghost"
+                  className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                >
+                  <LogIn className="h-4 w-4 mr-1.5" />
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </nav>
 
           {/* Mobile nav */}
@@ -70,6 +98,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </Link>
                   );
                 })}
+                {user ? (
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => { handleSignOut(); setOpen(false); }}
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </Button>
+                ) : (
+                  <Link to="/auth" onClick={() => setOpen(false)}>
+                    <Button variant="ghost" className="w-full justify-start">
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Sign In
+                    </Button>
+                  </Link>
+                )}
               </nav>
             </SheetContent>
           </Sheet>

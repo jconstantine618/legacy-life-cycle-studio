@@ -14,13 +14,116 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      assessments: {
+        Row: {
+          annual_income: string
+          asset_types: string[] | null
+          created_at: string
+          existing_plans: string[] | null
+          filing_status: string
+          goals: string[] | null
+          id: string
+          net_worth: string
+          state: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          annual_income: string
+          asset_types?: string[] | null
+          created_at?: string
+          existing_plans?: string[] | null
+          filing_status: string
+          goals?: string[] | null
+          id?: string
+          net_worth: string
+          state: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          annual_income?: string
+          asset_types?: string[] | null
+          created_at?: string
+          existing_plans?: string[] | null
+          filing_status?: string
+          goals?: string[] | null
+          id?: string
+          net_worth?: string
+          state?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      strategy_allocations: {
+        Row: {
+          assessment_id: string
+          created_at: string
+          dollar_amount: number
+          id: string
+          strategy_symbol: string
+        }
+        Insert: {
+          assessment_id: string
+          created_at?: string
+          dollar_amount?: number
+          id?: string
+          strategy_symbol: string
+        }
+        Update: {
+          assessment_id?: string
+          created_at?: string
+          dollar_amount?: number
+          id?: string
+          strategy_symbol?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "strategy_allocations_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      user_owns_assessment: {
+        Args: { assessment_id_arg: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
