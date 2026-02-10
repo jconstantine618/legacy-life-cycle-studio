@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { stateNames, filingStatusLabels, type FilingStatus } from "@/data/taxRates";
 
 export interface AssessmentData {
   annualIncome: string;
@@ -16,6 +17,8 @@ export interface AssessmentData {
   assetTypes: string[];
   goals: string[];
   existingPlans: string[];
+  state: string;
+  filingStatus: FilingStatus | "";
 }
 
 const defaultData: AssessmentData = {
@@ -24,6 +27,8 @@ const defaultData: AssessmentData = {
   assetTypes: [],
   goals: [],
   existingPlans: [],
+  state: "",
+  filingStatus: "",
 };
 
 const incomeRanges = [
@@ -62,7 +67,16 @@ const existingPlanOptions = [
   "Business Succession Plan",
 ];
 
-const steps = ["Income & Assets", "Goals & Priorities", "Existing Plans"];
+const steps = ["Income & Location", "Goals & Priorities", "Existing Plans"];
+
+const sortedStates = Object.entries(stateNames).sort((a, b) => a[1].localeCompare(b[1]));
+
+const filingStatuses: { value: FilingStatus; label: string }[] = [
+  { value: "single", label: filingStatusLabels.single },
+  { value: "married_filing_jointly", label: filingStatusLabels.married_filing_jointly },
+  { value: "married_filing_separately", label: filingStatusLabels.married_filing_separately },
+  { value: "head_of_household", label: filingStatusLabels.head_of_household },
+];
 
 export default function Assessment() {
   const [step, setStep] = useState(0);
@@ -81,13 +95,12 @@ export default function Assessment() {
   };
 
   const canProceed = () => {
-    if (step === 0) return data.annualIncome && data.netWorth;
+    if (step === 0) return data.annualIncome && data.netWorth && data.state && data.filingStatus;
     if (step === 1) return data.goals.length > 0;
     return true;
   };
 
   const handleSubmit = () => {
-    // Store in localStorage for now; will move to DB with Cloud
     localStorage.setItem("assessmentData", JSON.stringify(data));
     navigate("/recommendations");
   };
@@ -127,6 +140,35 @@ export default function Assessment() {
             <CardContent className="space-y-6">
               {step === 0 && (
                 <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label className="font-semibold">State of Residence</Label>
+                      <Select value={data.state} onValueChange={(v) => setData({ ...data, state: v })}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select state" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {sortedStates.map(([code, name]) => (
+                            <SelectItem key={code} value={code}>{name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="font-semibold">Filing Status</Label>
+                      <Select value={data.filingStatus} onValueChange={(v) => setData({ ...data, filingStatus: v as FilingStatus })}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select filing status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {filingStatuses.map((fs) => (
+                            <SelectItem key={fs.value} value={fs.value}>{fs.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
                   <div className="space-y-3">
                     <Label className="font-semibold">Annual Household Income</Label>
                     <RadioGroup value={data.annualIncome} onValueChange={(v) => setData({ ...data, annualIncome: v })}>
