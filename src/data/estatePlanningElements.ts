@@ -1,5 +1,7 @@
 export type Category = "charitable" | "personal" | "qualified";
 
+export type DeductionType = "income_deduction" | "estate_reduction" | "tax_credit" | "tax_deferred" | "none";
+
 export interface EstatePlanningElement {
   symbol: string;
   name: string;
@@ -13,6 +15,9 @@ export interface EstatePlanningElement {
   relevantForNetWorthAbove?: number;
   relevantGoals: string[];
   relevantExistingPlans?: string[];
+  deductionType: DeductionType;
+  deductionPercentage?: number;
+  maxContribution?: number;
 }
 
 export const estatePlanningElements: EstatePlanningElement[] = [
@@ -29,6 +34,8 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 200000,
     relevantForNetWorthAbove: 1000000,
     relevantGoals: ["charitable_giving", "tax_reduction"],
+    deductionType: "income_deduction",
+    deductionPercentage: 0.3,
   },
   {
     symbol: "CLT",
@@ -42,6 +49,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 500000,
     relevantForNetWorthAbove: 5000000,
     relevantGoals: ["charitable_giving", "wealth_transfer", "tax_reduction"],
+    deductionType: "estate_reduction",
   },
   {
     symbol: "DAF",
@@ -55,6 +63,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 100000,
     relevantForNetWorthAbove: 250000,
     relevantGoals: ["charitable_giving", "tax_reduction"],
+    deductionType: "income_deduction",
   },
   {
     symbol: "PIF",
@@ -68,6 +77,8 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 100000,
     relevantForNetWorthAbove: 500000,
     relevantGoals: ["charitable_giving", "tax_reduction"],
+    deductionType: "income_deduction",
+    deductionPercentage: 0.4,
   },
   {
     symbol: "CGA",
@@ -81,6 +92,8 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 75000,
     relevantForNetWorthAbove: 250000,
     relevantGoals: ["charitable_giving", "tax_reduction"],
+    deductionType: "income_deduction",
+    deductionPercentage: 0.4,
   },
   {
     symbol: "PF",
@@ -94,6 +107,8 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 500000,
     relevantForNetWorthAbove: 10000000,
     relevantGoals: ["charitable_giving", "tax_reduction", "wealth_transfer"],
+    deductionType: "income_deduction",
+    deductionPercentage: 0.3,
   },
   {
     symbol: "SCIN",
@@ -107,6 +122,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 250000,
     relevantForNetWorthAbove: 2000000,
     relevantGoals: ["wealth_transfer", "tax_reduction"],
+    deductionType: "estate_reduction",
   },
   {
     symbol: "BQ",
@@ -120,6 +136,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 50000,
     relevantForNetWorthAbove: 500000,
     relevantGoals: ["charitable_giving", "tax_reduction"],
+    deductionType: "estate_reduction",
   },
 
   // Personal Planning Tools (Teal/Green)
@@ -135,6 +152,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 50000,
     relevantForNetWorthAbove: 100000,
     relevantGoals: ["asset_protection", "wealth_transfer"],
+    deductionType: "none",
   },
   {
     symbol: "ILT",
@@ -148,6 +166,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 200000,
     relevantForNetWorthAbove: 2000000,
     relevantGoals: ["wealth_transfer", "tax_reduction", "asset_protection"],
+    deductionType: "estate_reduction",
   },
   {
     symbol: "FLP",
@@ -161,6 +180,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 300000,
     relevantForNetWorthAbove: 3000000,
     relevantGoals: ["wealth_transfer", "tax_reduction", "asset_protection"],
+    deductionType: "estate_reduction",
   },
   {
     symbol: "GRAT",
@@ -174,6 +194,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 500000,
     relevantForNetWorthAbove: 5000000,
     relevantGoals: ["wealth_transfer", "tax_reduction"],
+    deductionType: "estate_reduction",
   },
   {
     symbol: "QPRT",
@@ -187,6 +208,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 200000,
     relevantForNetWorthAbove: 1000000,
     relevantGoals: ["wealth_transfer", "tax_reduction"],
+    deductionType: "estate_reduction",
   },
   {
     symbol: "DST",
@@ -200,6 +222,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 500000,
     relevantForNetWorthAbove: 10000000,
     relevantGoals: ["wealth_transfer", "tax_reduction", "asset_protection"],
+    deductionType: "estate_reduction",
   },
   {
     symbol: "SLT",
@@ -213,6 +236,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 300000,
     relevantForNetWorthAbove: 5000000,
     relevantGoals: ["wealth_transfer", "tax_reduction", "asset_protection"],
+    deductionType: "estate_reduction",
   },
   {
     symbol: "DAPT",
@@ -226,6 +250,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 250000,
     relevantForNetWorthAbove: 2000000,
     relevantGoals: ["asset_protection"],
+    deductionType: "none",
   },
   {
     symbol: "SNT",
@@ -239,6 +264,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 50000,
     relevantForNetWorthAbove: 100000,
     relevantGoals: ["wealth_transfer", "asset_protection"],
+    deductionType: "none",
   },
 
   // Qualified Planning Tools (Orange)
@@ -254,6 +280,8 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 50000,
     relevantForNetWorthAbove: 0,
     relevantGoals: ["tax_reduction"],
+    deductionType: "income_deduction",
+    maxContribution: 23500,
   },
   {
     symbol: "IRA",
@@ -267,6 +295,8 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 30000,
     relevantForNetWorthAbove: 0,
     relevantGoals: ["tax_reduction"],
+    deductionType: "income_deduction",
+    maxContribution: 7000,
   },
   {
     symbol: "SEP",
@@ -280,6 +310,8 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 75000,
     relevantForNetWorthAbove: 0,
     relevantGoals: ["tax_reduction"],
+    deductionType: "income_deduction",
+    maxContribution: 70000,
   },
   {
     symbol: "DBP",
@@ -293,6 +325,8 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 250000,
     relevantForNetWorthAbove: 500000,
     relevantGoals: ["tax_reduction"],
+    deductionType: "income_deduction",
+    maxContribution: 275000,
   },
   {
     symbol: "CB",
@@ -306,6 +340,8 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 250000,
     relevantForNetWorthAbove: 500000,
     relevantGoals: ["tax_reduction"],
+    deductionType: "income_deduction",
+    maxContribution: 275000,
   },
   {
     symbol: "ESOP",
@@ -319,6 +355,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 200000,
     relevantForNetWorthAbove: 1000000,
     relevantGoals: ["tax_reduction", "wealth_transfer"],
+    deductionType: "tax_deferred",
   },
   {
     symbol: "PSP",
@@ -332,6 +369,8 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 100000,
     relevantForNetWorthAbove: 250000,
     relevantGoals: ["tax_reduction"],
+    deductionType: "income_deduction",
+    maxContribution: 70000,
   },
   {
     symbol: "457b",
@@ -345,6 +384,8 @@ export const estatePlanningElements: EstatePlanningElement[] = [
     relevantForIncomeAbove: 75000,
     relevantForNetWorthAbove: 0,
     relevantGoals: ["tax_reduction"],
+    deductionType: "income_deduction",
+    maxContribution: 23500,
   },
 ];
 
