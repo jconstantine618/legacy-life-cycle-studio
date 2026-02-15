@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
-  { path: "/periodic-table", label: "Periodic Table", icon: Grid3X3 },
+  { path: "/blueprint", label: "Blueprint", icon: Grid3X3 },
   { path: "/assessment", label: "Assessment", icon: ClipboardList },
   { path: "/recommendations", label: "Recommendations", icon: BarChart3 },
 ];

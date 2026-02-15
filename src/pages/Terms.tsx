@@ -17,7 +17,7 @@ export default function Terms() {
 
         <h2 className="text-xl font-bold font-serif text-foreground">1. Acceptance of Terms</h2>
         <p>
-          By accessing or using the Periodic Table of Estate Planning Elements™ website ("Service"), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.
+          By accessing or using the Estate Planning Blueprint™ website ("Service"), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.
         </p>
 
         <h2 className="text-xl font-bold font-serif text-foreground">2. Description of Service</h2>
@@ -41,7 +41,7 @@ export default function Terms() {
 
         <h2 className="text-xl font-bold font-serif text-foreground">5. Intellectual Property</h2>
         <p>
-          All content, features, and functionality of the Service, including but not limited to the Periodic Table of Estate Planning Elements™ framework, text, graphics, logos, and software, are the exclusive property of the Service operators and are protected by copyright, trademark, and other intellectual property laws.
+          All content, features, and functionality of the Service, including but not limited to the Estate Planning Blueprint™ framework, text, graphics, logos, and software, are the exclusive property of the Service operators and are protected by copyright, trademark, and other intellectual property laws.
         </p>
 
         <h2 className="text-xl font-bold font-serif text-foreground">6. Disclaimer of Warranties</h2>
