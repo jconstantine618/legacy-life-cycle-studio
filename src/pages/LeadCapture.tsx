@@ -126,8 +126,16 @@ export default function LeadCapture() {
                 maxLength={20}
               />
             </div>
-            <div className="text-xs text-muted-foreground">
-              Email: {user?.email}
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={user?.email ?? ""}
+                readOnly
+                className="bg-muted"
+                placeholder="you@example.com"
+              />
             </div>
             <Button type="submit" className="w-full bg-gold text-gold-foreground hover:bg-gold/90" disabled={loading}>
               {loading ? "Saving..." : "View My Tax Savings"} <ArrowRight className="ml-2 h-4 w-4" />
