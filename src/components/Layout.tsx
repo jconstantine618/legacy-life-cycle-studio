@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Grid3X3, ClipboardList, BarChart3, Home, LogIn, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import Footer from "@/components/Footer";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
@@ -123,15 +124,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <main className="flex-1">{children}</main>
 
-      <footer className="border-t bg-primary text-primary-foreground/70 py-8">
-        <div className="container text-center text-sm">
-          <p className="font-serif text-lg font-semibold text-primary-foreground mb-2">
-            Financial Services
-          </p>
-          <p>Estate Planning Solutions for Individuals</p>
-          <p className="mt-1">© {new Date().getFullYear()} Financial Services. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
