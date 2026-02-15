@@ -47,9 +47,9 @@ export default function Index() {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-6xl font-bold font-serif mb-6 leading-tight"
           >
-            The Periodic Table of
+            Build Your
             <br />
-            <span className="text-gold">Estate Planning Elements™</span>
+            <span className="text-gold">Estate Planning Blueprint™</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -67,9 +67,9 @@ export default function Index() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link to="/periodic-table">
+            <Link to="/blueprint">
               <Button size="lg" className="bg-gold text-gold-foreground hover:bg-gold/90 font-semibold px-8">
-                Explore the Table
+                Explore the Blueprint
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>

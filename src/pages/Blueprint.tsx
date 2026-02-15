@@ -19,7 +19,7 @@ const categoryBadgeStyles: Record<Category, string> = {
   qualified: "bg-qualified/10 text-qualified border-qualified/30",
 };
 
-export default function PeriodicTable() {
+export default function Blueprint() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   const [selectedElement, setSelectedElement] = useState<EstatePlanningElement | null>(null);
@@ -50,7 +50,7 @@ export default function PeriodicTable() {
     <div className="container py-12">
       <div className="text-center mb-10">
         <h1 className="text-3xl md:text-4xl font-bold font-serif mb-3">
-          Periodic Table of Estate Planning Elements™
+          The Estate Planning Blueprint™
         </h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
           Click any element to learn more about the strategy, who it's best for, and key benefits.

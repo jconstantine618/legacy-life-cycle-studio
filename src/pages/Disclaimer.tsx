@@ -17,7 +17,7 @@ export default function Disclaimer() {
 
         <h2 className="text-xl font-bold font-serif text-foreground">Not Financial Advice</h2>
         <p>
-          The information provided on this website, including the Periodic Table of Estate Planning Elements™, assessment results, and strategy recommendations, is for <strong>educational and informational purposes only</strong>. It does not constitute financial, legal, tax, or investment advice.
+          The information provided on this website, including the Estate Planning Blueprint™, assessment results, and strategy recommendations, is for <strong>educational and informational purposes only</strong>. It does not constitute financial, legal, tax, or investment advice.
         </p>
 
         <h2 className="text-xl font-bold font-serif text-foreground">No Professional Relationship</h2>

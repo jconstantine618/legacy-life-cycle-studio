@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Layout from "@/components/Layout";
 import Index from "./pages/Index";
-import PeriodicTable from "./pages/PeriodicTable";
+import Blueprint from "./pages/Blueprint";
 import Assessment from "./pages/Assessment";
 import Recommendations from "./pages/Recommendations";
 import Auth from "./pages/Auth";
@@ -28,7 +28,7 @@ const App = () => (
           <Layout>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/periodic-table" element={<PeriodicTable />} />
+              <Route path="/blueprint" element={<Blueprint />} />
               <Route path="/assessment" element={<Assessment />} />
               <Route path="/recommendations" element={<Recommendations />} />
               <Route path="/auth" element={<Auth />} />
