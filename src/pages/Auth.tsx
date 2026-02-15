@@ -52,7 +52,7 @@ export default function Auth() {
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="font-serif text-2xl">
-            {isLogin ? "Welcome Back" : "Create Account"}
+            {isLogin ? "Sign In" : "Create Account"}
           </CardTitle>
           <p className="text-sm text-muted-foreground">
             {isLogin
