@@ -113,7 +113,7 @@ export const estatePlanningElements: EstatePlanningElement[] = [
   {
     symbol: "SCIN",
     name: "Self-Canceling Installment Note",
-    category: "charitable",
+    category: "personal",
     description: "A promissory note that cancels automatically upon the seller's death, removing any remaining payments from the estate.",
     bestFor: "Individuals wanting to sell assets to family members while reducing estate tax exposure.",
     benefits: ["Estate tax reduction", "Income stream during life", "Cancels at death", "Asset transfer to heirs"],
