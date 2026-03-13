@@ -7,7 +7,6 @@ import {
   loadLifecycleProfile as loadFromLocalStorage,
   saveLifecycleProfile as saveToLocalStorage,
 } from "@/lib/lifecycleProfile";
-import type { DomainId } from "@/data/lifecycle";
 
 /** Map between the camelCase frontend model and the snake_case DB columns. */
 function toDbRow(profile: LifecycleProfile, userId: string) {
@@ -15,37 +14,60 @@ function toDbRow(profile: LifecycleProfile, userId: string) {
     user_id: userId,
     age: profile.age,
     worldview: profile.worldview,
-    preferred_layout: profile.preferredLayout,
-    background_summary: profile.backgroundSummary,
+    preferred_layout: "circle", // keep for DB compat
+    background_summary: JSON.stringify({
+      workEnjoysMost: profile.workEnjoysMost,
+      restEnjoysMost: profile.restEnjoysMost,
+    }),
     occupation: profile.occupation,
-    passions: profile.passions,
-    future_vision: profile.futureVision,
-    energy: profile.energy,
-    transition_confidence: profile.transitionConfidence,
-    priorities: profile.priorities,
-    selected_domains: profile.selectedDomains,
-    horizon: profile.horizon,
-    notes: profile.notes,
-    scenario: profile.scenario,
+    passions: profile.selectedActivities.join(","),
+    future_vision: "",
+    energy: Math.round(
+      Object.values(profile.scores).reduce((a, b) => a + b, 0) /
+        Math.max(1, Object.values(profile.scores).length),
+    ),
+    transition_confidence: 3,
+    priorities: Object.entries(profile.scores)
+      .filter(([, v]) => v <= 4)
+      .map(([k]) => k),
+    selected_domains: [],
+    horizon: "12_months",
+    notes: JSON.stringify({
+      expectedLifespan: profile.expectedLifespan,
+      scores: profile.scores,
+      selectedActivities: profile.selectedActivities,
+    }),
+    scenario: "",
   };
 }
 
 function fromDbRow(row: Record<string, unknown>): LifecycleProfile {
+  let notesData: Record<string, unknown> = {};
+  let bgData: Record<string, unknown> = {};
+
+  try {
+    if (typeof row.notes === "string" && row.notes.startsWith("{")) {
+      notesData = JSON.parse(row.notes);
+    }
+  } catch { /* ignore */ }
+
+  try {
+    if (typeof row.background_summary === "string" && row.background_summary.startsWith("{")) {
+      bgData = JSON.parse(row.background_summary);
+    }
+  } catch { /* ignore */ }
+
   return {
     age: (row.age as number) ?? defaultLifecycleProfile.age,
+    expectedLifespan: (notesData.expectedLifespan as number) ?? defaultLifecycleProfile.expectedLifespan,
     worldview: (row.worldview as LifecycleProfile["worldview"]) ?? defaultLifecycleProfile.worldview,
-    preferredLayout: (row.preferred_layout as LifecycleProfile["preferredLayout"]) ?? defaultLifecycleProfile.preferredLayout,
-    backgroundSummary: (row.background_summary as string) ?? "",
     occupation: (row.occupation as string) ?? "",
-    passions: (row.passions as string) ?? "",
-    futureVision: (row.future_vision as string) ?? "",
-    energy: (row.energy as number) ?? defaultLifecycleProfile.energy,
-    transitionConfidence: (row.transition_confidence as number) ?? defaultLifecycleProfile.transitionConfidence,
-    priorities: Array.isArray(row.priorities) ? (row.priorities as string[]) : defaultLifecycleProfile.priorities,
-    selectedDomains: Array.isArray(row.selected_domains) ? (row.selected_domains as DomainId[]) : defaultLifecycleProfile.selectedDomains,
-    horizon: (row.horizon as string) ?? defaultLifecycleProfile.horizon,
-    notes: (row.notes as string) ?? "",
-    scenario: (row.scenario as string) ?? "",
+    scores: (notesData.scores as Record<string, number>) ?? defaultLifecycleProfile.scores,
+    selectedActivities: Array.isArray(notesData.selectedActivities)
+      ? (notesData.selectedActivities as string[])
+      : [],
+    workEnjoysMost: (bgData.workEnjoysMost as string) ?? "",
+    restEnjoysMost: (bgData.restEnjoysMost as string) ?? "",
   };
 }
 
@@ -79,9 +101,8 @@ export function useLifecycleProfile() {
         setRemoteId(data.id as string);
         const loaded = fromDbRow(data as Record<string, unknown>);
         setProfile(loaded);
-        saveToLocalStorage(loaded); // keep local cache in sync
+        saveToLocalStorage(loaded);
       }
-      // If no remote data, keep the localStorage profile
       loadedRef.current = true;
       setLoading(false);
     }
@@ -111,13 +132,11 @@ export function useLifecycleProfile() {
     setSaving(true);
     try {
       if (remoteId) {
-        // Update existing
         await supabase
           .from("lifecycle_profiles")
           .update(toDbRow(data, user.id))
           .eq("id", remoteId);
       } else {
-        // Insert new
         const { data: inserted } = await supabase
           .from("lifecycle_profiles")
           .insert(toDbRow(data, user.id))

@@ -4,19 +4,21 @@ export const lifecycleProfileStorageKey = "legacyLifecycleProfile";
 
 export const defaultLifecycleProfile: LifecycleProfile = {
   age: 38,
+  expectedLifespan: 80,
   worldview: "secular",
-  preferredLayout: "circle",
-  backgroundSummary: "",
   occupation: "",
-  passions: "",
-  futureVision: "",
-  energy: 3,
-  transitionConfidence: 3,
-  priorities: ["clarity", "alignment"],
-  selectedDomains: ["relationships", "work", "stewardship"],
-  horizon: "12_months",
-  notes: "",
-  scenario: "",
+  scores: {
+    financialFreedom: 5,
+    familyCloseness: 5,
+    hobbies: 5,
+    workEnjoyment: 5,
+    restEnjoyment: 5,
+    healthWellness: 5,
+    purpose: 5,
+  },
+  selectedActivities: [],
+  workEnjoysMost: "",
+  restEnjoysMost: "",
 };
 
 export function loadLifecycleProfile(): LifecycleProfile {
@@ -31,10 +33,11 @@ export function loadLifecycleProfile(): LifecycleProfile {
     return {
       ...defaultLifecycleProfile,
       ...parsed,
-      priorities: Array.isArray(parsed.priorities) ? parsed.priorities : defaultLifecycleProfile.priorities,
-      selectedDomains: Array.isArray(parsed.selectedDomains)
-        ? parsed.selectedDomains
-        : defaultLifecycleProfile.selectedDomains,
+      scores: {
+        ...defaultLifecycleProfile.scores,
+        ...(typeof parsed.scores === "object" && parsed.scores !== null ? parsed.scores : {}),
+      },
+      selectedActivities: Array.isArray(parsed.selectedActivities) ? parsed.selectedActivities : [],
     };
   } catch {
     return defaultLifecycleProfile;

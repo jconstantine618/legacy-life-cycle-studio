@@ -6,9 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Layout from "@/components/Layout";
 import Index from "./pages/Index";
-import Blueprint from "./pages/Blueprint";
-import Assessment from "./pages/Assessment";
-import Recommendations from "./pages/Recommendations";
 import Auth from "./pages/Auth";
 import Disclaimer from "./pages/Disclaimer";
 import Terms from "./pages/Terms";
@@ -27,12 +24,6 @@ const App = () => (
           <Layout>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/explorer" element={<Blueprint />} />
-              <Route path="/blueprint" element={<Blueprint />} />
-              <Route path="/profile" element={<Assessment />} />
-              <Route path="/assessment" element={<Assessment />} />
-              <Route path="/roadmap" element={<Recommendations />} />
-              <Route path="/recommendations" element={<Recommendations />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/disclaimer" element={<Disclaimer />} />
               <Route path="/terms" element={<Terms />} />

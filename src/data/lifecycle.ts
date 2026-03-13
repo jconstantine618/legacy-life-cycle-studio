@@ -1,13 +1,5 @@
 export type Worldview = "secular" | "sacred";
-export type MapLayout = "circle" | "arc";
 export type SeasonId = "spring" | "summer" | "autumn" | "winter";
-export type DomainId =
-  | "identity"
-  | "relationships"
-  | "work"
-  | "health"
-  | "stewardship"
-  | "legacy";
 
 export interface SeasonDefinition {
   id: SeasonId;
@@ -17,7 +9,6 @@ export interface SeasonDefinition {
   summary: string;
   descriptors: string[];
   focusStatement: string;
-  transitionPrompt: string;
   sacredAnchor?: {
     citation: string;
     excerpt: string;
@@ -29,56 +20,18 @@ export interface SeasonDefinition {
   };
 }
 
-export interface DomainDefinition {
-  id: DomainId;
-  name: string;
-  summary: string;
-}
-
-export interface PdfAsset {
-  id: string;
-  worldview: Worldview;
-  layout: MapLayout;
-  title: string;
-  description: string;
-  pdfUrl: string;
-  previewUrl: string;
-}
-
-export interface PriorityOption {
+export interface LifeCategory {
   id: string;
   label: string;
-  summary: string;
+  question: string;
+  icon: string;
 }
 
-export interface HorizonOption {
+export interface ActivityOption {
   id: string;
   label: string;
-  summary: string;
+  category: "creative" | "social" | "physical" | "intellectual" | "spiritual" | "service" | "leisure";
 }
-
-export interface GuidedPromptGroup {
-  id: string;
-  title: string;
-  prompts: string[];
-}
-
-export interface ScenarioTemplate {
-  id: string;
-  title: string;
-  prompt: string;
-  summary: string;
-}
-
-export const worldviewLabels: Record<Worldview, string> = {
-  secular: "Secular",
-  sacred: "Sacred",
-};
-
-export const layoutLabels: Record<MapLayout, string> = {
-  circle: "Circle",
-  arc: "Arc",
-};
 
 export const seasons: SeasonDefinition[] = [
   {
@@ -87,9 +40,8 @@ export const seasons: SeasonDefinition[] = [
     verb: "Learn",
     ageRange: [0, 25],
     summary: "A season for orientation, identity formation, and discovering what kind of person you are becoming.",
-    descriptors: ["Longer days", "New life", "Growth", "Hope", "Optimism", "Change"],
+    descriptors: ["New life", "Growth", "Hope", "Discovery", "Foundation"],
     focusStatement: "Build foundations before speed becomes the default.",
-    transitionPrompt: "What habits, beliefs, and relationships should be strengthened before the pace of Summer arrives?",
     sacredAnchor: {
       citation: "Isaiah 48:17",
       excerpt: "I am the Lord your God, who teaches you what is best for you, who directs you in the way you should go.",
@@ -106,9 +58,8 @@ export const seasons: SeasonDefinition[] = [
     verb: "Apply",
     ageRange: [25, 50],
     summary: "A season of execution where learning gets tested in work, family, leadership, and daily responsibility.",
-    descriptors: ["Longest days", "Full and busy", "Implement", "Realize", "Validate", "Achieve"],
+    descriptors: ["Full and busy", "Implement", "Achieve", "Build", "Sustain"],
     focusStatement: "Convert momentum into durable systems and meaningful commitments.",
-    transitionPrompt: "What are you building now that should still matter when output is no longer your main advantage?",
     sacredAnchor: {
       citation: "Ecclesiastes 11:6",
       excerpt: "Sow your seed in the morning, and at evening let your hands not be idle.",
@@ -124,10 +75,9 @@ export const seasons: SeasonDefinition[] = [
     name: "Autumn",
     verb: "Reap",
     ageRange: [50, 75],
-    summary: "A season to harvest wisdom, reallocate attention, and widen influence through contribution rather than pure output.",
-    descriptors: ["Shorter days", "Harvest", "Fruit", "Vision", "Significance", "Leverage"],
+    summary: "A season to harvest wisdom, reallocate attention, and widen influence through contribution rather than output.",
+    descriptors: ["Harvest", "Vision", "Significance", "Mentor", "Leverage"],
     focusStatement: "Harvest intentionally and direct what you have built toward significance.",
-    transitionPrompt: "Where should your experience become mentorship, generosity, or strategic stewardship?",
     sacredAnchor: {
       citation: "Psalm 128:2",
       excerpt: "You will eat the fruit of your labor; blessings and prosperity will be yours.",
@@ -143,10 +93,9 @@ export const seasons: SeasonDefinition[] = [
     name: "Winter",
     verb: "Prepare",
     ageRange: [75, 100],
-    summary: "A season for simplification, blessing others, story curation, and preparing family and community for what continues after you.",
-    descriptors: ["Shortest days", "Reminisce", "Dreams", "Destiny", "Legacy", "Death"],
+    summary: "A season for simplification, blessing others, story curation, and preparing for what continues after you.",
+    descriptors: ["Simplify", "Bless", "Legacy", "Rest", "Transfer"],
     focusStatement: "Reduce noise, clarify what matters, and transfer wisdom with intention.",
-    transitionPrompt: "What still needs to be named, shared, organized, or released for others to carry forward well?",
     sacredAnchor: {
       citation: "Ecclesiastes 3:20",
       excerpt: "All go to the same place; all come from dust, and to dust all return.",
@@ -159,209 +108,114 @@ export const seasons: SeasonDefinition[] = [
   },
 ];
 
-export const domains: DomainDefinition[] = [
+export const lifeCategories: LifeCategory[] = [
   {
-    id: "identity",
-    name: "Identity",
-    summary: "Values, beliefs, calling, and the story you are living from.",
+    id: "financialFreedom",
+    label: "Financial Freedom",
+    question: "How financially free do you feel?",
+    icon: "💰",
   },
   {
-    id: "relationships",
-    name: "Relationships",
-    summary: "Family, friendship, marriage, community, repair, and belonging.",
+    id: "familyCloseness",
+    label: "Family Closeness",
+    question: "How close to your family are you?",
+    icon: "👨‍👩‍👧‍👦",
   },
   {
-    id: "work",
-    name: "Work",
-    summary: "Career, craft, leadership, contribution, and how your effort compounds.",
+    id: "hobbies",
+    label: "Hobbies & Interests",
+    question: "How active are your hobbies and interests?",
+    icon: "🎨",
   },
   {
-    id: "health",
-    name: "Health",
-    summary: "Physical energy, mental resilience, rest, and your capacity to sustain a life rhythm.",
+    id: "workEnjoyment",
+    label: "Work Enjoyment",
+    question: "When working, how much do you enjoy what you do?",
+    icon: "💼",
   },
   {
-    id: "stewardship",
-    name: "Stewardship",
-    summary: "Resources, margin, generosity, estate readiness, and intentional allocation.",
+    id: "restEnjoyment",
+    label: "Rest & Leisure",
+    question: "When not working, how fulfilling is your downtime?",
+    icon: "☀️",
   },
   {
-    id: "legacy",
-    name: "Legacy",
-    summary: "Mentorship, stories, rituals, documents, and what remains after your active years.",
-  },
-];
-
-export const priorityOptions: PriorityOption[] = [
-  {
-    id: "clarity",
-    label: "Gain clarity for this season",
-    summary: "Name what matters now and reduce noise.",
+    id: "healthWellness",
+    label: "Health & Wellness",
+    question: "How would you rate your physical health and energy?",
+    icon: "❤️",
   },
   {
-    id: "transition",
-    label: "Prepare for the next transition",
-    summary: "Reduce friction before the next quarter-life turn.",
-  },
-  {
-    id: "alignment",
-    label: "Align work and life",
-    summary: "Make decisions that fit your values, pace, and responsibilities.",
-  },
-  {
-    id: "relationships",
-    label: "Strengthen core relationships",
-    summary: "Make room for repair, presence, and intergenerational conversations.",
-  },
-  {
-    id: "legacy",
-    label: "Build a living legacy plan",
-    summary: "Capture stories, intentions, and practical transfer steps.",
-  },
-  {
-    id: "stewardship",
-    label: "Create stewardship structure",
-    summary: "Organize assets, obligations, and key documents.",
+    id: "purpose",
+    label: "Sense of Purpose",
+    question: "How strong is your sense of purpose right now?",
+    icon: "🧭",
   },
 ];
 
-export const horizonOptions: HorizonOption[] = [
-  {
-    id: "90_days",
-    label: "Next 90 days",
-    summary: "A focused operating rhythm for immediate action.",
-  },
-  {
-    id: "12_months",
-    label: "Next 12 months",
-    summary: "A practical annual roadmap with milestones.",
-  },
-  {
-    id: "3_years",
-    label: "Next 3 years",
-    summary: "A transition-aware plan for larger shifts and timing.",
-  },
+export const activityOptions: ActivityOption[] = [
+  // Creative
+  { id: "painting", label: "Painting & Drawing", category: "creative" },
+  { id: "writing", label: "Writing & Journaling", category: "creative" },
+  { id: "music", label: "Playing Music", category: "creative" },
+  { id: "photography", label: "Photography", category: "creative" },
+  { id: "woodworking", label: "Woodworking & Crafts", category: "creative" },
+  { id: "cooking", label: "Cooking & Baking", category: "creative" },
+  { id: "gardening", label: "Gardening", category: "creative" },
+
+  // Social
+  { id: "entertaining", label: "Hosting & Entertaining", category: "social" },
+  { id: "mentoring", label: "Mentoring Others", category: "social" },
+  { id: "communityWork", label: "Community Involvement", category: "social" },
+  { id: "familyTime", label: "Quality Family Time", category: "social" },
+  { id: "friendships", label: "Deepening Friendships", category: "social" },
+
+  // Physical
+  { id: "hiking", label: "Hiking & Nature Walks", category: "physical" },
+  { id: "sports", label: "Sports & Athletics", category: "physical" },
+  { id: "yoga", label: "Yoga & Stretching", category: "physical" },
+  { id: "swimming", label: "Swimming", category: "physical" },
+  { id: "cycling", label: "Cycling", category: "physical" },
+  { id: "gym", label: "Strength Training", category: "physical" },
+
+  // Intellectual
+  { id: "reading", label: "Reading", category: "intellectual" },
+  { id: "learning", label: "Taking Courses & Learning", category: "intellectual" },
+  { id: "puzzles", label: "Puzzles & Strategy Games", category: "intellectual" },
+  { id: "technology", label: "Exploring Technology", category: "intellectual" },
+  { id: "investing", label: "Investing & Finance", category: "intellectual" },
+
+  // Spiritual
+  { id: "prayer", label: "Prayer & Meditation", category: "spiritual" },
+  { id: "worship", label: "Worship & Church Life", category: "spiritual" },
+  { id: "scripture", label: "Scripture Study", category: "spiritual" },
+  { id: "retreat", label: "Retreats & Reflection", category: "spiritual" },
+
+  // Service
+  { id: "volunteering", label: "Volunteering", category: "service" },
+  { id: "teaching", label: "Teaching & Training", category: "service" },
+  { id: "caregiving", label: "Caregiving", category: "service" },
+  { id: "missions", label: "Missions & Outreach", category: "service" },
+  { id: "nonprofit", label: "Nonprofit Work", category: "service" },
+
+  // Leisure
+  { id: "travel", label: "Travel & Exploration", category: "leisure" },
+  { id: "movies", label: "Movies & Shows", category: "leisure" },
+  { id: "gaming", label: "Gaming", category: "leisure" },
+  { id: "fishing", label: "Fishing & Hunting", category: "leisure" },
+  { id: "collecting", label: "Collecting", category: "leisure" },
+  { id: "relaxing", label: "Simply Relaxing", category: "leisure" },
 ];
 
-export const guidedPromptGroups: GuidedPromptGroup[] = [
-  {
-    id: "background",
-    title: "Background prompts",
-    prompts: [
-      "What shaped you most in the last ten years?",
-      "What responsibilities or relationships define this season?",
-      "What part of your history still affects how you make decisions now?",
-    ],
-  },
-  {
-    id: "work",
-    title: "Work and contribution prompts",
-    prompts: [
-      "What do you do for a living, and what part of it feels most meaningful?",
-      "What work drains you, and what work makes you feel useful or alive?",
-      "If your current role ended tomorrow, what kind of contribution would you still want to make?",
-    ],
-  },
-  {
-    id: "passion",
-    title: "Passion and purpose prompts",
-    prompts: [
-      "What do you care about even when nobody asks you to care about it?",
-      "Where do you naturally give energy, time, or attention?",
-      "What topics, causes, or kinds of people pull something strong out of you?",
-    ],
-  },
-  {
-    id: "future",
-    title: "Future vision prompts",
-    prompts: [
-      "What do you think your future could look like if things went well enough?",
-      "What are you afraid might happen if you do not act intentionally?",
-      "What do you want more of in the next chapter: stability, freedom, service, creativity, rest, or reinvention?",
-    ],
-  },
-  {
-    id: "scenario",
-    title: "Scenario prompts",
-    prompts: [
-      "What is the specific situation you are trying to think through?",
-      "Why does it feel complicated right now?",
-      "What decision, conversation, or transition feels hardest to face next?",
-    ],
-  },
-];
-
-export const scenarioTemplates: ScenarioTemplate[] = [
-  {
-    id: "retirement",
-    title: "I don't know when to retire",
-    prompt: "I don't know when to retire. I am unsure how to weigh money, identity, usefulness, timing, and family needs.",
-    summary: "Useful for people trying to decide whether to keep working, slow down, or move into a new chapter.",
-  },
-  {
-    id: "spare-time",
-    title: "I don't know what to do with my spare time",
-    prompt: "I don't know what to do with my spare time. I need help thinking about purpose, rhythm, relationships, contribution, and enjoyment.",
-    summary: "Useful when structure has changed and meaning has not caught up yet.",
-  },
-  {
-    id: "grief",
-    title: "My spouse just died, what should my focus be now?",
-    prompt: "My spouse just died. I need help thinking through what my focus should be now emotionally, relationally, practically, and spiritually.",
-    summary: "Useful for grief, disorientation, and immediate next-step thinking after a major loss.",
-  },
-  {
-    id: "reinvention",
-    title: "I think I need to reinvent my life",
-    prompt: "I think I need to reinvent my life, but I do not know what to keep, what to release, or what to build next.",
-    summary: "Useful for transitions involving calling, identity, career, or lifestyle redesign.",
-  },
-  {
-    id: "caregiving",
-    title: "I am caring for others and losing myself",
-    prompt: "I am caring for others and losing myself. I need help balancing duty, identity, energy, and what is sustainable.",
-    summary: "Useful for caregiving seasons, role overload, and boundary questions.",
-  },
-];
-
-export const pdfAssets: PdfAsset[] = [
-  {
-    id: "secular-circle",
-    worldview: "secular",
-    layout: "circle",
-    title: "Secular Circle Map",
-    description: "The original 360-degree lifecycle chart focused on the four seasonal verbs.",
-    pdfUrl: "/legacy-lifecycle/pdfs/secular_circle.pdf",
-    previewUrl: "/legacy-lifecycle/previews/secular_circle.png",
-  },
-  {
-    id: "sacred-circle",
-    worldview: "sacred",
-    layout: "circle",
-    title: "Sacred Circle Map",
-    description: "The faith-oriented circle chart with scriptural anchors for each season.",
-    pdfUrl: "/legacy-lifecycle/pdfs/sacred_circle.pdf",
-    previewUrl: "/legacy-lifecycle/previews/sacred_circle.png",
-  },
-  {
-    id: "secular-arc",
-    worldview: "secular",
-    layout: "arc",
-    title: "Secular Arc Map",
-    description: "A 180-degree arc that emphasizes the acceleration and deceleration of life.",
-    pdfUrl: "/legacy-lifecycle/pdfs/secular_arc.pdf",
-    previewUrl: "/legacy-lifecycle/previews/secular_arc.png",
-  },
-  {
-    id: "sacred-arc",
-    worldview: "sacred",
-    layout: "arc",
-    title: "Sacred Arc Map",
-    description: "The arc view plus scriptural anchors and Psalm 90:10 framing.",
-    pdfUrl: "/legacy-lifecycle/pdfs/sacred_arc.pdf",
-    previewUrl: "/legacy-lifecycle/previews/sacred_arc.png",
-  },
-];
+export const activityCategories = [
+  { id: "creative", label: "Creative", color: "#e6b718" },
+  { id: "social", label: "Social", color: "#45b649" },
+  { id: "physical", label: "Physical", color: "#0f75bd" },
+  { id: "intellectual", label: "Intellectual", color: "#8b5cf6" },
+  { id: "spiritual", label: "Spiritual", color: "#ec4899" },
+  { id: "service", label: "Service", color: "#f97316" },
+  { id: "leisure", label: "Leisure", color: "#736a67" },
+] as const;
 
 export const seasonOrder: SeasonId[] = ["spring", "summer", "autumn", "winter"];
 
@@ -370,3 +224,22 @@ export const sacredFraming = {
   excerpt:
     "Our days may come to seventy years, or eighty, if our strength endures; yet they quickly pass, and we fly away.",
 };
+
+export function getSeasonByAge(age: number, maxAge: number = 100): SeasonDefinition {
+  // Scale seasons proportionally to the person's expected lifespan
+  const fraction = Math.min(1, Math.max(0, age / maxAge));
+  if (fraction < 0.25) return seasons[0]; // Spring
+  if (fraction < 0.5) return seasons[1];  // Summer
+  if (fraction < 0.75) return seasons[2]; // Autumn
+  return seasons[3];                       // Winter
+}
+
+export function getScaledSeasons(maxAge: number): (SeasonDefinition & { scaledRange: [number, number] })[] {
+  return seasons.map((season, i) => ({
+    ...season,
+    scaledRange: [
+      Math.round((i * maxAge) / 4),
+      Math.round(((i + 1) * maxAge) / 4),
+    ] as [number, number],
+  }));
+}
