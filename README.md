@@ -1,73 +1,89 @@
-# Welcome to your Lovable project
+# Legacy Life Cycle Studio
 
-## Project info
+A lifecycle-planning application that helps people think through life seasons and difficult transitions using season of life, worldview, work, passions, future vision, and scenario-based prompts.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## What it does
 
-## How can I edit this code?
+The app guides users through a lifecycle profiler that captures their age, worldview, occupation, passions, future vision, background, energy, priorities, and a real-life situation they are navigating. It then generates a personalized roadmap with focus areas, reflection prompts, and scenario-specific guidance for situations like retirement, grief, caregiving, purpose, and reinvention.
 
-There are several ways of editing your application.
+## Tech stack
 
-**Use Lovable**
+- **Frontend**: React 18, TypeScript, Vite
+- **Styling**: Tailwind CSS, shadcn/ui, Framer Motion
+- **Backend**: Supabase (auth, database, RLS)
+- **Deployment**: Vercel
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Local development
 
-Changes made via Lovable will be committed automatically to this repo.
+```bash
+# Clone the repository
+git clone https://github.com/jconstantine618/legacy-life-cycle-studio.git
+cd legacy-life-cycle-studio
 
-**Use your preferred IDE**
+# Install dependencies
+npm install
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+# Copy env vars and fill in your Supabase credentials
+cp .env.example .env
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the dev server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app will be available at `http://localhost:8080`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Environment variables
 
-**Use GitHub Codespaces**
+| Variable | Description |
+|---|---|
+| `VITE_SUPABASE_URL` | Supabase project URL |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon/public key |
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Scripts
 
-## What technologies are used for this project?
+| Command | Description |
+|---|---|
+| `npm run dev` | Start local dev server |
+| `npm run build` | Production build |
+| `npm run lint` | Run ESLint |
+| `npm run test` | Run tests |
+| `npm run preview` | Preview production build locally |
 
-This project is built with:
+## Supabase schema
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+The app uses three main tables:
 
-## How can I deploy this project?
+- **`profiles`** — Auth-linked user profile (auto-created on signup)
+- **`lifecycle_profiles`** — Saved lifecycle profile data (age, worldview, priorities, domains, scenario, etc.)
+- **`scenario_sessions`** — Persisted scenario runs for later review
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+All tables use Row Level Security so users can only access their own data.
 
-## Can I connect a custom domain to my Lovable project?
+## Deployment
 
-Yes, you can!
+The app deploys as a static Vite frontend on Vercel. Set the two environment variables in your Vercel project settings, and Vercel will build and deploy automatically on push to `main`.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Supabase configuration
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+After creating your Supabase project:
+
+1. Run the migrations in `supabase/migrations/` against your project
+2. Enable email/password auth in Authentication > Providers
+3. Set the Site URL and Redirect URLs in Authentication > URL Configuration to include your Vercel domain
+
+## Project structure
+
+```
+src/
+  components/    # UI components (Layout, LifecycleVisualizer, PdfLibrary, etc.)
+  contexts/      # AuthContext
+  data/          # Lifecycle data model, seasons, domains, scenarios
+  hooks/         # Custom React hooks (useLifecycleProfile, useScenarioSessions)
+  integrations/  # Supabase client and types
+  lib/           # Lifecycle engine, profile persistence
+  pages/         # Route pages (Index, Blueprint, Assessment, Recommendations, Auth)
+public/
+  legacy-lifecycle/  # PDF reference assets
+supabase/
+  migrations/        # SQL migrations
+```

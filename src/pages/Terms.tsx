@@ -17,12 +17,12 @@ export default function Terms() {
 
         <h2 className="text-xl font-bold font-serif text-foreground">1. Acceptance of Terms</h2>
         <p>
-          By accessing or using the Estate Planning Blueprint™ website ("Service"), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.
+          By accessing or using the Legacy Life Cycle Studio website ("Service"), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.
         </p>
 
         <h2 className="text-xl font-bold font-serif text-foreground">2. Description of Service</h2>
         <p>
-          The Service provides educational information about estate planning strategies, a self-assessment tool, and personalized strategy recommendations. The Service is intended for informational purposes only and does not constitute professional financial, legal, or tax advice.
+          The Service provides educational lifecycle maps, self-assessment tools, downloadable PDFs, and personalized planning prompts. The Service is intended for informational and reflective purposes only and does not constitute professional advice.
         </p>
 
         <h2 className="text-xl font-bold font-serif text-foreground">3. User Accounts</h2>
@@ -41,7 +41,7 @@ export default function Terms() {
 
         <h2 className="text-xl font-bold font-serif text-foreground">5. Intellectual Property</h2>
         <p>
-          All content, features, and functionality of the Service, including but not limited to the Estate Planning Blueprint™ framework, text, graphics, logos, and software, are the exclusive property of the Service operators and are protected by copyright, trademark, and other intellectual property laws.
+          All content, features, and functionality of the Service, including lifecycle frameworks, text, graphics, logos, and software, are the property of the Service operators or their licensors and are protected by applicable intellectual property laws.
         </p>
 
         <h2 className="text-xl font-bold font-serif text-foreground">6. Disclaimer of Warranties</h2>

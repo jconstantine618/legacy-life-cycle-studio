@@ -15,6 +15,9 @@ export default function Auth() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const getErrorMessage = (error: unknown) =>
+    error instanceof Error ? error.message : "Something went wrong. Please try again.";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -36,10 +39,10 @@ export default function Auth() {
           description: "We've sent you a confirmation link. Please verify your email to continue.",
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message,
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     } finally {
@@ -56,8 +59,8 @@ export default function Auth() {
           </CardTitle>
           <p className="text-sm text-muted-foreground">
             {isLogin
-              ? "Sign in to access your saved assessments and recommendations."
-              : "Create an account to save your estate planning results."}
+              ? "Sign in to access your saved lifecycle profile and roadmap."
+              : "Create an account to save your lifecycle planning results."}
           </p>
         </CardHeader>
         <CardContent>

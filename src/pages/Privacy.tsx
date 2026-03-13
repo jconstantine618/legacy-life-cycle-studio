@@ -19,16 +19,15 @@ export default function Privacy() {
         <p>We collect the following types of information:</p>
         <ul className="list-disc pl-6 space-y-2">
           <li><strong>Account Information:</strong> Email address and password when you create an account.</li>
-          <li><strong>Contact Information:</strong> Full name and phone number provided during lead capture.</li>
-          <li><strong>Assessment Data:</strong> Financial information you voluntarily provide, including income range, net worth range, state of residence, filing status, financial goals, and existing plans.</li>
-          <li><strong>Strategy Allocations:</strong> Your selected estate planning strategies and associated dollar amounts.</li>
+          <li><strong>Profile Data:</strong> Lifecycle information you voluntarily provide, such as age, worldview, priorities, focus domains, notes, and planning horizon.</li>
+          <li><strong>Export Preferences:</strong> Choices related to PDFs, map layouts, and roadmap generation.</li>
           <li><strong>Usage Data:</strong> Information about how you interact with our Service, collected automatically.</li>
         </ul>
 
         <h2 className="text-xl font-bold font-serif text-foreground">2. How We Use Your Information</h2>
         <p>We use the collected information to:</p>
         <ul className="list-disc pl-6 space-y-2">
-          <li>Provide personalized estate planning strategy recommendations</li>
+          <li>Provide personalized lifecycle roadmap recommendations</li>
           <li>Create and manage your account</li>
           <li>Communicate with you about our services</li>
           <li>Improve and optimize our Service</li>

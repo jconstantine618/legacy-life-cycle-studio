@@ -8,16 +8,16 @@ export default function Disclaimer() {
         <ArrowLeft className="mr-2 h-4 w-4" /> Back to Home
       </Link>
 
-      <h1 className="text-3xl md:text-4xl font-bold font-serif mb-8">Financial Disclaimer</h1>
+      <h1 className="text-3xl md:text-4xl font-bold font-serif mb-8">Educational Disclaimer</h1>
 
       <div className="prose prose-slate max-w-none space-y-6 text-muted-foreground">
         <p className="text-foreground font-semibold">
           Last updated: February 15, 2026
         </p>
 
-        <h2 className="text-xl font-bold font-serif text-foreground">Not Financial Advice</h2>
+        <h2 className="text-xl font-bold font-serif text-foreground">Not Professional Advice</h2>
         <p>
-          The information provided on this website, including the Estate Planning Blueprint™, assessment results, and strategy recommendations, is for <strong>educational and informational purposes only</strong>. It does not constitute financial, legal, tax, or investment advice.
+          The information provided on this website, including lifecycle maps, profile results, and roadmap suggestions, is for <strong>educational and informational purposes only</strong>. It does not constitute legal, financial, tax, medical, mental health, or spiritual direction.
         </p>
 
         <h2 className="text-xl font-bold font-serif text-foreground">No Professional Relationship</h2>
@@ -27,17 +27,17 @@ export default function Disclaimer() {
 
         <h2 className="text-xl font-bold font-serif text-foreground">Accuracy of Information</h2>
         <p>
-          While we strive to provide accurate and up-to-date information, tax laws, regulations, and financial strategies change frequently. We make no representations or warranties about the completeness, accuracy, reliability, or suitability of the information contained on this website.
+          While we strive to provide thoughtful and accurate educational material, the information on this website may not reflect your individual context. We make no representations or warranties about completeness, accuracy, reliability, or suitability for any personal decision.
         </p>
 
-        <h2 className="text-xl font-bold font-serif text-foreground">Estimated Savings & Projections</h2>
+        <h2 className="text-xl font-bold font-serif text-foreground">Roadmaps and Projections</h2>
         <p>
-          Any estimated savings ranges, tax projections, or financial calculations presented are <strong>hypothetical illustrations only</strong>. Actual results will vary based on your individual financial situation, applicable tax laws, and other factors. Past performance or projected performance is not indicative of future results.
+          Any season scores, transition windows, or suggested actions are <strong>illustrative planning tools only</strong>. Real outcomes depend on your circumstances, relationships, health, resources, and the quality of professional guidance you receive.
         </p>
 
         <h2 className="text-xl font-bold font-serif text-foreground">Consult a Professional</h2>
         <p>
-          Before making any financial, legal, or tax-related decisions, you should consult with a qualified financial advisor, attorney, certified public accountant, or other appropriate professional who can evaluate your specific circumstances.
+          Before making financial, legal, medical, or family-governance decisions, consult qualified professionals who can evaluate your specific circumstances.
         </p>
 
         <h2 className="text-xl font-bold font-serif text-foreground">Limitation of Liability</h2>

@@ -7,8 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.1"
   }
@@ -56,6 +54,72 @@ export type Database = {
         }
         Relationships: []
       }
+      lifecycle_profiles: {
+        Row: {
+          id: string
+          user_id: string
+          label: string | null
+          age: number
+          worldview: string
+          preferred_layout: string
+          background_summary: string | null
+          occupation: string | null
+          passions: string | null
+          future_vision: string | null
+          energy: number
+          transition_confidence: number
+          priorities: string[]
+          selected_domains: string[]
+          horizon: string
+          notes: string | null
+          scenario: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          label?: string | null
+          age: number
+          worldview: string
+          preferred_layout: string
+          background_summary?: string | null
+          occupation?: string | null
+          passions?: string | null
+          future_vision?: string | null
+          energy?: number
+          transition_confidence?: number
+          priorities?: string[]
+          selected_domains?: string[]
+          horizon: string
+          notes?: string | null
+          scenario?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          label?: string | null
+          age?: number
+          worldview?: string
+          preferred_layout?: string
+          background_summary?: string | null
+          occupation?: string | null
+          passions?: string | null
+          future_vision?: string | null
+          energy?: number
+          transition_confidence?: number
+          priorities?: string[]
+          selected_domains?: string[]
+          horizon?: string
+          notes?: string | null
+          scenario?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -82,6 +146,47 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      scenario_sessions: {
+        Row: {
+          id: string
+          user_id: string
+          lifecycle_profile_id: string | null
+          title: string | null
+          scenario: string
+          guidance: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          lifecycle_profile_id?: string | null
+          title?: string | null
+          scenario: string
+          guidance?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          lifecycle_profile_id?: string | null
+          title?: string | null
+          scenario?: string
+          guidance?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scenario_sessions_lifecycle_profile_id_fkey"
+            columns: ["lifecycle_profile_id"]
+            isOneToOne: false
+            referencedRelation: "lifecycle_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       strategy_allocations: {
         Row: {

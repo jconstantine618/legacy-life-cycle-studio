@@ -1,186 +1,220 @@
-import { useState, useMemo } from "react";
-import { estatePlanningElements, categoryLabels, type Category, type EstatePlanningElement } from "@/data/estatePlanningElements";
-import { Input } from "@/components/ui/input";
+import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowRight, BookOpenText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { Search, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
+import LifecycleVisualizer from "@/components/LifecycleVisualizer";
+import PdfLibrary from "@/components/PdfLibrary";
+import {
+  sacredFraming,
+  seasons,
+  layoutLabels,
+  worldviewLabels,
+  type MapLayout,
+  type Worldview,
+} from "@/data/lifecycle";
 
-const categoryStyles: Record<Category, string> = {
-  charitable: "bg-charitable text-charitable-foreground hover:bg-charitable/90 border-charitable",
-  personal: "bg-personal text-personal-foreground hover:bg-personal/90 border-personal",
-  qualified: "bg-qualified text-qualified-foreground hover:bg-qualified/90 border-qualified",
-};
-
-const categoryBadgeStyles: Record<Category, string> = {
-  charitable: "bg-charitable/10 text-charitable border-charitable/30",
-  personal: "bg-personal/10 text-personal border-personal/30",
-  qualified: "bg-qualified/10 text-qualified border-qualified/30",
-};
+function TogglePill({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+        active
+          ? "border-slate-900 bg-slate-900 text-white"
+          : "border-slate-200 bg-white/75 text-slate-600 hover:border-slate-300 hover:text-slate-900"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
 
 export default function Blueprint() {
-  const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState<Category | null>(null);
-  const [selectedElement, setSelectedElement] = useState<EstatePlanningElement | null>(null);
+  const [age, setAge] = useState(38);
+  const [worldview, setWorldview] = useState<Worldview>("secular");
+  const [layout, setLayout] = useState<MapLayout>("circle");
 
-  const filtered = useMemo(() => {
-    return estatePlanningElements.filter((el) => {
-      const matchesSearch =
-        !search ||
-        el.name.toLowerCase().includes(search.toLowerCase()) ||
-        el.symbol.toLowerCase().includes(search.toLowerCase()) ||
-        el.description.toLowerCase().includes(search.toLowerCase());
-      const matchesCat = !activeCategory || el.category === activeCategory;
-      return matchesSearch && matchesCat;
-    });
-  }, [search, activeCategory]);
-
-  const grouped = useMemo(() => {
-    const groups: Record<Category, EstatePlanningElement[]> = {
-      charitable: [],
-      personal: [],
-      qualified: [],
-    };
-    filtered.forEach((el) => groups[el.category].push(el));
-    return groups;
-  }, [filtered]);
+  const activeSeason = useMemo(
+    () => seasons.find((season) => age >= season.ageRange[0] && age < season.ageRange[1]) ?? seasons[3],
+    [age],
+  );
 
   return (
-    <div className="container py-12">
-      <div className="text-center mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold font-serif mb-3">
-          The Estate Planning Blueprint™
-        </h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          Click any element to learn more about the strategy, who it's best for, and key benefits.
-        </p>
-      </div>
+    <div className="relative overflow-hidden bg-[linear-gradient(180deg,#f5ede1_0%,#fbf8f3_40%,#f3ece1_100%)]">
+      <div className="container relative py-12 md:py-16">
+        <div className="mb-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="text-xs uppercase tracking-[0.35em] text-slate-500">Explorer</p>
+            <h1 className="mt-3 font-serif text-4xl text-slate-950 md:text-5xl">
+              Explore the model behind the Legacy Life Cycle
+            </h1>
+            <p className="mt-4 text-lg leading-8 text-slate-600">
+              The original site gives visitors a static PDF. This explorer turns the concept into an interactive,
+              age-aware experience with worldview and geometry toggles, season summaries, and embedded chart access.
+            </p>
+          </div>
 
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-8 max-w-2xl mx-auto">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search strategies..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9"
-          />
+          <Button asChild size="lg" className="rounded-full">
+            <Link to="/profile">
+              Profile a real person
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
-        <div className="flex gap-2">
-          {(Object.keys(categoryLabels) as Category[]).map((cat) => (
-            <Button
-              key={cat}
-              size="sm"
-              variant={activeCategory === cat ? "default" : "outline"}
-              className={activeCategory === cat ? categoryStyles[cat] : ""}
-              onClick={() => setActiveCategory(activeCategory === cat ? null : cat)}
-            >
-              {cat === "charitable" ? "Charitable" : cat === "personal" ? "Personal" : "Qualified"}
-            </Button>
-          ))}
-          {(search || activeCategory) && (
-            <Button size="sm" variant="ghost" onClick={() => { setSearch(""); setActiveCategory(null); }}>
-              <X className="h-4 w-4" />
-            </Button>
-          )}
-        </div>
-      </div>
 
-      {/* Grid by category */}
-      {(Object.keys(grouped) as Category[]).map((cat) =>
-        grouped[cat].length > 0 ? (
-          <div key={cat} className="mb-10">
-            <h2 className="text-lg font-semibold font-serif mb-4 flex items-center gap-2">
-              <span className={`inline-block w-3 h-3 rounded-sm ${categoryStyles[cat].split(" ")[0]}`} />
-              {categoryLabels[cat]}
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
-              <AnimatePresence mode="popLayout">
-                {grouped[cat].map((el) => (
-                  <motion.button
-                    key={el.symbol}
-                    layout
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    whileHover={{ scale: 1.08 }}
-                    onClick={() => setSelectedElement(el)}
-                    className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 cursor-pointer transition-colors ${categoryStyles[el.category]}`}
+        <div className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
+          <div className="space-y-6">
+            <Card className="border-white/60 bg-white/75 shadow-[0_20px_60px_rgba(62,54,43,0.12)]">
+              <CardContent className="space-y-6 p-6">
+                <div className="grid gap-6 lg:grid-cols-[0.74fr_0.26fr]">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.35em] text-slate-500">Interactive controls</p>
+                    <h2 className="mt-2 font-serif text-3xl text-slate-950">Move through the lifespan</h2>
+                    <div className="mt-6">
+                      <div className="mb-4 flex items-center justify-between">
+                        <span className="text-sm font-semibold text-slate-700">Age</span>
+                        <span className="rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
+                          {age}
+                        </span>
+                      </div>
+                      <Slider value={[age]} min={0} max={100} step={1} onValueChange={([value]) => setAge(value)} />
+                      <div className="mt-2 flex justify-between text-xs uppercase tracking-[0.28em] text-slate-400">
+                        <span>0</span>
+                        <span>25</span>
+                        <span>50</span>
+                        <span>75</span>
+                        <span>100</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-5">
+                    <div>
+                      <p className="mb-3 text-sm font-semibold text-slate-700">Worldview</p>
+                      <div className="flex flex-wrap gap-2">
+                        {(Object.keys(worldviewLabels) as Worldview[]).map((option) => (
+                          <TogglePill key={option} active={worldview === option} onClick={() => setWorldview(option)}>
+                            {worldviewLabels[option]}
+                          </TogglePill>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="mb-3 text-sm font-semibold text-slate-700">Layout</p>
+                      <div className="flex flex-wrap gap-2">
+                        {(Object.keys(layoutLabels) as MapLayout[]).map((option) => (
+                          <TogglePill key={option} active={layout === option} onClick={() => setLayout(option)}>
+                            {layoutLabels[option]}
+                          </TogglePill>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <LifecycleVisualizer age={age} worldview={worldview} layout={layout} highlightSeasonId={activeSeason.id} />
+              </CardContent>
+            </Card>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              {seasons.map((season, index) => {
+                const isActive = season.id === activeSeason.id;
+                return (
+                  <motion.div
+                    key={season.id}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.06, duration: 0.45 }}
                   >
-                    <span className="text-2xl font-bold font-serif">{el.symbol}</span>
-                    <span className="text-[10px] leading-tight mt-1 opacity-90 text-center">{el.name}</span>
-                  </motion.button>
-                ))}
-              </AnimatePresence>
+                    <Card className={`h-full border-white/60 bg-white/75 shadow-[0_20px_60px_rgba(62,54,43,0.12)] ${isActive ? "ring-2 ring-slate-900/10" : ""}`}>
+                      <CardContent className="p-6">
+                        <div className="flex items-center justify-between gap-3">
+                          <div>
+                            <p className="text-xs uppercase tracking-[0.35em] text-slate-500">{season.verb}</p>
+                            <h3 className="mt-2 font-serif text-3xl" style={{ color: season.colors.ink }}>
+                              {season.name}
+                            </h3>
+                          </div>
+                          <div
+                            className="rounded-full px-3 py-1 text-sm font-semibold"
+                            style={{ backgroundColor: season.colors.soft, color: season.colors.ink }}
+                          >
+                            {season.ageRange[0]}-{season.ageRange[1]}
+                          </div>
+                        </div>
+                        <p className="mt-4 text-sm leading-7 text-slate-600">{season.summary}</p>
+                        <div className="mt-5 flex flex-wrap gap-2">
+                          {season.descriptors.map((descriptor) => (
+                            <span
+                              key={descriptor}
+                              className="rounded-full px-3 py-1 text-xs font-medium"
+                              style={{ backgroundColor: season.colors.soft, color: season.colors.ink }}
+                            >
+                              {descriptor}
+                            </span>
+                          ))}
+                        </div>
+                        <p className="mt-5 rounded-3xl bg-[#f8f3ec] p-4 text-sm leading-6 text-slate-700">
+                          {season.transitionPrompt}
+                        </p>
+                        {worldview === "sacred" && season.sacredAnchor ? (
+                          <div className="mt-4 rounded-3xl border border-slate-200 bg-white/85 p-4">
+                            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{season.sacredAnchor.citation}</p>
+                            <p className="mt-2 text-sm leading-6 text-slate-600">{season.sacredAnchor.excerpt}</p>
+                          </div>
+                        ) : null}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
-        ) : null
-      )}
 
-      {filtered.length === 0 && (
-        <p className="text-center text-muted-foreground py-12">
-          No strategies found matching your search.
-        </p>
-      )}
+          <div className="space-y-6">
+            <PdfLibrary worldview={worldview} layout={layout} />
 
-      {/* Detail Dialog */}
-      <Dialog open={!!selectedElement} onOpenChange={() => setSelectedElement(null)}>
-        <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
-          {selectedElement && (
-            <>
-              <DialogHeader>
-                <div className="flex items-center gap-3 mb-1">
-                  <span className={`inline-flex items-center justify-center w-12 h-12 rounded-lg text-xl font-bold font-serif ${categoryStyles[selectedElement.category]}`}>
-                    {selectedElement.symbol}
-                  </span>
-                  <div>
-                    <DialogTitle className="font-serif">{selectedElement.name}</DialogTitle>
-                    <Badge variant="outline" className={categoryBadgeStyles[selectedElement.category]}>
-                      {categoryLabels[selectedElement.category]}
-                    </Badge>
+            {worldview === "sacred" ? (
+              <Card className="border-white/60 bg-slate-950 text-white shadow-[0_20px_60px_rgba(23,18,11,0.25)]">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-2xl bg-white/10 p-3 text-amber-200">
+                      <BookOpenText className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.35em] text-white/50">Sacred framing</p>
+                      <h2 className="mt-2 font-serif text-3xl">{sacredFraming.verse}</h2>
+                    </div>
                   </div>
-                </div>
-                <DialogDescription className="pt-2">{selectedElement.description}</DialogDescription>
-              </DialogHeader>
-
-              <div className="space-y-4 mt-2">
-                <div>
-                  <h4 className="font-semibold text-sm mb-1">Best For</h4>
-                  <p className="text-sm text-muted-foreground">{selectedElement.bestFor}</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-sm mb-1">Key Benefits</h4>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    {selectedElement.benefits.map((b) => (
-                      <li key={b} className="flex items-start gap-2">
-                        <span className="text-personal mt-0.5">✓</span> {b}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-sm mb-1">Considerations</h4>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    {selectedElement.considerations.map((c) => (
-                      <li key={c} className="flex items-start gap-2">
-                        <span className="text-accent mt-0.5">•</span> {c}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                {selectedElement.estimatedSavingsRange && (
-                  <div>
-                    <h4 className="font-semibold text-sm mb-1">Estimated Savings Range</h4>
-                    <p className="text-sm font-medium text-personal">{selectedElement.estimatedSavingsRange}</p>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+                  <p className="mt-5 text-sm leading-7 text-white/75">{sacredFraming.excerpt}</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="border-white/60 bg-white/75 shadow-[0_20px_60px_rgba(62,54,43,0.12)]">
+                <CardContent className="p-6">
+                  <p className="text-xs uppercase tracking-[0.35em] text-slate-500">Secular framing</p>
+                  <h2 className="mt-2 font-serif text-3xl text-slate-950">A universal planning language</h2>
+                  <p className="mt-4 text-sm leading-7 text-slate-600">
+                    The secular mode keeps the seasonal structure while removing explicit scriptural framing. That makes
+                    the concept easier to use in coaching, education, family conversations, and organizational planning.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

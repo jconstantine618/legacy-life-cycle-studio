@@ -10,7 +10,6 @@ import Blueprint from "./pages/Blueprint";
 import Assessment from "./pages/Assessment";
 import Recommendations from "./pages/Recommendations";
 import Auth from "./pages/Auth";
-import LeadCapture from "./pages/LeadCapture";
 import Disclaimer from "./pages/Disclaimer";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
@@ -28,11 +27,13 @@ const App = () => (
           <Layout>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/explorer" element={<Blueprint />} />
               <Route path="/blueprint" element={<Blueprint />} />
+              <Route path="/profile" element={<Assessment />} />
               <Route path="/assessment" element={<Assessment />} />
+              <Route path="/roadmap" element={<Recommendations />} />
               <Route path="/recommendations" element={<Recommendations />} />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/lead-capture" element={<LeadCapture />} />
               <Route path="/disclaimer" element={<Disclaimer />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
