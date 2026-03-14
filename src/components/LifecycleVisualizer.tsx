@@ -39,84 +39,88 @@ export default function LifecycleVisualizer({
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="relative mx-auto aspect-square w-full max-w-[28rem]">
-          <div className="absolute inset-0 rounded-full border-[10px] border-white shadow-inner" />
-          <div className="absolute inset-4 overflow-hidden rounded-full">
-            <div className="grid h-full grid-cols-2 grid-rows-2">
-              {scaledSeasons.map((season) => {
-                const isActive = season.id === currentSeason.id;
-                return (
-                  <div
-                    key={season.id}
-                    className={`flex items-center justify-center transition-all ${isActive ? "opacity-100" : "opacity-70"}`}
-                    style={{ backgroundColor: season.colors.solid }}
-                  >
-                    <div className="text-center text-white">
-                      <p className="font-serif text-2xl md:text-3xl">{season.name}</p>
-                      <p className="mt-1 text-xs uppercase tracking-[0.4em] text-white/85">{season.verb}</p>
-                      <p className="mt-1 text-xs text-white/70">
-                        {season.scaledRange[0]}-{season.scaledRange[1]}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div className="absolute inset-[14%] rounded-full border border-white/25" />
-          <div
-            className="absolute -translate-x-1/2 -translate-y-1/2 z-10"
-            style={{ left: `${marker.x}%`, top: `${marker.y}%` }}
-          >
-            <div className="rounded-full border-4 border-white bg-slate-900 shadow-lg">
-              <div className="h-4 w-4 rounded-full bg-amber-300" />
-            </div>
-            <div className="mt-2 -ml-4 whitespace-nowrap rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">
-              Age {age}
-            </div>
-          </div>
-        </div>
-
-        <div className="grid content-start gap-3">
-          {scaledSeasons.map((season) => {
-            const isActive = season.id === currentSeason.id;
-            return (
-              <div
-                key={season.id}
-                className={`rounded-3xl border px-4 py-3 transition-all ${
-                  isActive ? "border-white/70 bg-white/80 shadow-lg" : "border-white/40 bg-white/55"
-                }`}
-                style={
-                  isActive
-                    ? { borderColor: season.colors.solid, boxShadow: `0 0 0 2px ${season.colors.soft}` }
-                    : undefined
-                }
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-slate-500">{season.verb}</p>
-                    <h3 className="font-serif text-xl" style={{ color: season.colors.ink }}>
-                      {season.name}
-                    </h3>
-                  </div>
-                  <div
-                    className="rounded-full px-3 py-1 text-sm font-semibold"
-                    style={{ backgroundColor: season.colors.soft, color: season.colors.ink }}
-                  >
-                    {season.scaledRange[0]}-{season.scaledRange[1]}
+      {/* Wheel */}
+      <div className="relative mx-auto aspect-square w-full max-w-[22rem]">
+        <div className="absolute inset-0 rounded-full border-[10px] border-white shadow-inner" />
+        <div className="absolute inset-4 overflow-hidden rounded-full">
+          <div className="grid h-full grid-cols-2 grid-rows-2">
+            {scaledSeasons.map((season) => {
+              const isActive = season.id === currentSeason.id;
+              return (
+                <div
+                  key={season.id}
+                  className={`flex items-center justify-center transition-all ${isActive ? "opacity-100" : "opacity-70"}`}
+                  style={{ backgroundColor: season.colors.solid }}
+                >
+                  <div className="text-center text-white">
+                    <p className="font-serif text-xl sm:text-2xl">{season.name}</p>
+                    <p className="mt-0.5 text-[10px] uppercase tracking-[0.3em] text-white/85">{season.verb}</p>
+                    <p className="mt-0.5 text-[10px] text-white/70">
+                      {season.scaledRange[0]}–{season.scaledRange[1]}
+                    </p>
                   </div>
                 </div>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{season.summary}</p>
-                {worldview === "sacred" && season.sacredAnchor && isActive && (
-                  <p className="mt-2 text-xs italic text-slate-500">
-                    "{season.sacredAnchor.excerpt}" — {season.sacredAnchor.citation}
-                  </p>
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
+        <div className="absolute inset-[14%] rounded-full border border-white/25" />
+        <div
+          className="absolute -translate-x-1/2 -translate-y-1/2 z-10"
+          style={{ left: `${marker.x}%`, top: `${marker.y}%` }}
+        >
+          <div className="rounded-full border-4 border-white bg-slate-900 shadow-lg">
+            <div className="h-4 w-4 rounded-full bg-amber-300" />
+          </div>
+          <div className="mt-2 -ml-4 whitespace-nowrap rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">
+            Age {age}
+          </div>
+        </div>
+      </div>
+
+      {/* Season Badges - horizontal on mobile, 2x2 grid on larger */}
+      <div className="mt-5 grid grid-cols-2 gap-3">
+        {scaledSeasons.map((season) => {
+          const isActive = season.id === currentSeason.id;
+          return (
+            <div
+              key={season.id}
+              className={`rounded-2xl border px-3 py-3 transition-all ${
+                isActive ? "border-white/70 bg-white/80 shadow-lg" : "border-white/40 bg-white/55"
+              }`}
+              style={
+                isActive
+                  ? { borderColor: season.colors.solid, boxShadow: `0 0 0 2px ${season.colors.soft}` }
+                  : undefined
+              }
+            >
+              <div className="flex items-center justify-between gap-2">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-slate-500">{season.verb}</p>
+                  <h3 className="font-serif text-lg" style={{ color: season.colors.ink }}>
+                    {season.name}
+                  </h3>
+                </div>
+                <div
+                  className="rounded-full px-2 py-0.5 text-xs font-semibold"
+                  style={{ backgroundColor: season.colors.soft, color: season.colors.ink }}
+                >
+                  {season.scaledRange[0]}–{season.scaledRange[1]}
+                </div>
+              </div>
+              {isActive && (
+                <>
+                  <p className="mt-2 text-xs leading-5 text-slate-600">{season.summary}</p>
+                  {worldview === "sacred" && season.sacredAnchor && (
+                    <p className="mt-2 text-[11px] italic text-slate-500">
+                      "{season.sacredAnchor.excerpt}" — {season.sacredAnchor.citation}
+                    </p>
+                  )}
+                </>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
